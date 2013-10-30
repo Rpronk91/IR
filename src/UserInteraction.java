@@ -1,3 +1,6 @@
+import indexer.LineSplitter;
+import util.StringNormalizer;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,14 +11,14 @@ import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-
+// TODO if nothing else is needed of this code, it can be deleted.
 public class UserInteraction 
 {
 	private Hashtable<String, Frequency> invertedIndex = 
 			new Hashtable<String, Frequency>();
-	private Normalizer normalizer = new Normalizer();
+	private StringNormalizer normalizer = new StringNormalizer();
 		
-	UserInteraction(String[] args) throws IOException 
+	public UserInteraction(String[] args) throws IOException
 	{	
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String input;
@@ -25,7 +28,7 @@ public class UserInteraction
 		} else
 			input = args[0];
 		parseInput(input);
-		parseCollection();	
+		parseCollection();
 		ArrayList<String> BMfiles;
 		BMfiles = returnBestMatch(input);
 		System.out.println("matches found (unranked): ");
@@ -43,7 +46,7 @@ public class UserInteraction
 	public void parseInput(String input)
 	{
 		String token;
-		Tokenizer tokenizer = new Tokenizer(input); 
+		LineSplitter tokenizer = new LineSplitter(input);
 		token =  tokenizer.getToken();
 		System.out.print("matching on: ");
 		while ( token != null ) {
@@ -73,11 +76,11 @@ public class UserInteraction
     	for(File file : files )
     	{
 			freader = new FileReader(file);
-			lnreader = new LineNumberReader(freader);		
+			lnreader = new LineNumberReader(freader);
 			line = lnreader.readLine();
 			while(line != null)
 			{
-				Tokenizer tokenizer = new Tokenizer(line); 
+				LineSplitter tokenizer = new LineSplitter(line);
 				token =  tokenizer.getToken();
 				while ( token != null ) {
 					token = normalizer.normalize(token);

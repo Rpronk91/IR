@@ -1,6 +1,7 @@
 import java.util.Hashtable;
 import java.util.Set;
 
+// TODO if nothing else is needed of this code, it can be deleted.
 public class Frequency {
 	
 	private Hashtable<String, Double> frequencies = 
