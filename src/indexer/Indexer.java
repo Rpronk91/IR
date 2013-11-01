@@ -23,7 +23,7 @@ public class Indexer {
             System.out.println(fileno++ + " " + f.getName().split("\\.")[0]);
             this.indexFile(f);
         }
-        Collections.sort(index);
+        Collections.sort(this.index);
     }
 
     /**
@@ -88,6 +88,7 @@ public class Indexer {
      * corpus.
      */
     public void eliminateStopwords() {
+        Collections.sort(this.index);
         int tenPercent = (int) (0.1 * this.index.size());
         System.out.println(tenPercent);
 

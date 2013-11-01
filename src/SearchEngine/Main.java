@@ -1,14 +1,15 @@
-package indexer;
+package SearchEngine;
 
-import util.StaticVars;
+import indexer.Indexer;
+import util.Settings;
 
-public class IndexerMain {
+public class Main {
 
-    public static void main(String[] args) {
+    private static void doIndexing(String root) {
         long start = System.currentTimeMillis();
         System.out.println("Indexing starts.");
 
-        Indexer i = new Indexer(StaticVars.DOCUMENT_COLLECTION);
+        Indexer i = new Indexer(root);
 
         System.out.println("Indexing complete.");
 
@@ -18,7 +19,10 @@ public class IndexerMain {
         i.outputIndex();
         System.out.println("Index file created.");
 
-
         System.out.println("Indexing complete in " + (System.currentTimeMillis() - start) / 1000 + " seconds");
+    }
+
+    public static void main(String[] args) {
+        doIndexing(Settings.DOCUMENT_COLLECTION);
     }
 }

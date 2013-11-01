@@ -7,7 +7,7 @@ public class Frequency {
 	private Hashtable<String, Double> frequencies = 
 			new Hashtable<String, Double>();
 	
-	public Frequency(){		
+	public Frequency(){
 	}
 	
 	public double getFrequency(String ObjectID)

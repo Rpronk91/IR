@@ -10,7 +10,7 @@ import org.tartarus.snowball.util.StemmerException;
  *  + TODO Named entity recognition. (?)
  */
 public class StringNormalizer {
-	public static String normalize(String input) {
+    public static String normalize(String input) {
         String normalized = input.toLowerCase();
         try {
             normalized = EnglishSnowballStemmerFactory.getInstance().process(normalized);
@@ -18,5 +18,5 @@ public class StringNormalizer {
             e.printStackTrace();
         }
         return normalized;
-	}
+    }
 }
