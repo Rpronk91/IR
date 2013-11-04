@@ -7,10 +7,6 @@ import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.JSplitPane;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -86,17 +82,21 @@ public class SearchEngine {
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addComponent(query, GroupLayout.PREFERRED_SIZE, 167, GroupLayout.PREFERRED_SIZE)
-					.addGap(77)
-					.addComponent(methods, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(searchButton, GroupLayout.PREFERRED_SIZE, 144, GroupLayout.PREFERRED_SIZE))
+					.addComponent(query, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(methods, 0, 28, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(searchButton, GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-					.addComponent(searchButton)
-					.addComponent(methods, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(searchButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(3)
+							.addComponent(methods)))
+					.addGap(29))
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addComponent(query, GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
 					.addContainerGap())
@@ -112,18 +112,18 @@ public class SearchEngine {
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addComponent(results, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
+					.addComponent(results, GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(scrollBar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(5))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(5)
-					.addComponent(scrollBar, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+					.addComponent(scrollBar, GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
 					.addContainerGap())
-				.addComponent(results, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+				.addComponent(results, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
 		);
 		panel.setLayout(gl_panel);
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
@@ -135,10 +135,10 @@ public class SearchEngine {
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 199, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addGap(0))
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
