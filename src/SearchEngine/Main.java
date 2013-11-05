@@ -1,25 +1,24 @@
 package SearchEngine;
 
-import indexer.Indexer;
+import indexer.CollectionParser;
 import util.Settings;
 
 public class Main {
 
+    /**
+     * Handles all the required methods for the indexing to take place.
+     * @param root The root directory to be indexed.
+     */
     private static void doIndexing(String root) {
-        long start = System.currentTimeMillis();
         System.out.println("Indexing starts.");
 
-        Indexer i = new Indexer(root);
+        CollectionParser cp = new CollectionParser(root); // indexing complete
 
-        System.out.println("Indexing complete.");
+        cp.eliminateStopwords();                          // stopwords eliminated
 
-        i.eliminateStopwords();
-        System.out.println("Stopwords eliminated.");
+        cp.outputIndex();                                 // index file created.
 
-        i.outputIndex();
-        System.out.println("Index file created.");
-
-        System.out.println("Indexing complete in " + (System.currentTimeMillis() - start) / 1000 + " seconds");
+        cp.outputCollectionStatistics();                  // Collection stats file created.
     }
 
     public static void main(String[] args) {

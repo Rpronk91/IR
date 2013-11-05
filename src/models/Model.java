@@ -5,6 +5,7 @@ import shared.Document;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * This is the abstract class that need to be delegated by each model. All shared methods between models belong here.
@@ -21,6 +22,17 @@ public abstract class Model {
     /** super Constructor. */
     public Model() {
         this.documentCollection = new ArrayList<>();
+        initDocumentCollection();
+    }
+
+    /**
+     * Populates the document collection with document instances as acquired from the collection statistics file.
+     */
+    private void initDocumentCollection() {
+        HashMap<String, Double> documentStatistics = util.func.readDocumentStatistics();
+        for (String id : documentStatistics.keySet()) {
+            documentCollection.add( new Document(id, documentStatistics.get(id)) );
+        }
     }
 
     /**

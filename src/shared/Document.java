@@ -1,15 +1,14 @@
 package shared;
 
-import java.io.File;
-
 public class Document implements Comparable<Document> {
     private final String id;
     private final double length;
     private double score;
 
-    public Document(File f) {
-        this.id = "";
-        this.length = 0;
+    public Document(String id, double length) {
+        this.id = id;
+        this.length = length;
+        this.score = 0;
     }
 
     /**

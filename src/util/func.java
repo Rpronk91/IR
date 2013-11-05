@@ -1,9 +1,12 @@
 package util;
 
-import java.io.File;
-import java.io.FilenameFilter;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+/**
+ * All helping functions that don't really belong to a single class.
+ */
 public class func {
 
     /**
@@ -12,7 +15,7 @@ public class func {
      * @return an array of files that are contained in a given folder.
      */
     public static File[] getDocumentCollection(String root) {
-        ArrayList<File> ret = new ArrayList<File>();
+        ArrayList<File> ret = new ArrayList<>();
 
         File dir = new File(root);
         File[] files = dir.listFiles(
@@ -22,5 +25,30 @@ public class func {
                     }
                 });
         return files;
+    }
+
+    /**
+     * Reads the collection statistics file and returns a container with the info acquired from it.
+     * @return HashMap containing the collection statistics.
+     */
+    public static HashMap<String, Double> readDocumentStatistics() {
+        HashMap<String, Double> ret = new HashMap<>();
+        try {
+            File f = new File(Settings.DOCUMENT_STATS_FNAME);
+            FileInputStream fis = new FileInputStream(f);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] spaceSplit = line.split(" ");
+                String fileID = spaceSplit[0];
+                double fileLength = Double.parseDouble(spaceSplit[1]);
+
+                ret.put(fileID, fileLength);
+            }
+            fis.close();
+            br.close();
+        } catch (IOException ex) { ex.printStackTrace(); }
+        return ret;
     }
 }
