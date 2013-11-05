@@ -4,43 +4,63 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSplitPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JMenuBar;
+
 import java.awt.GridLayout;
+
 import javax.swing.JButton;
 import javax.swing.JList;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JLayeredPane;
 import javax.swing.BoxLayout;
+
 import java.awt.Component;
+
 import javax.swing.JScrollBar;
+
 import java.awt.FlowLayout;
+
 import javax.swing.SwingConstants;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JComboBox;
 import javax.swing.JTable;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JSeparator;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.event.FocusListener;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Vector;
 
 public class SearchEngine {
 
 	private JFrame frame;
-	private JTable table;
+	private JTable resultTable = new JTable();
 
 	/**
 	 * Launch the application.
@@ -73,18 +93,20 @@ public class SearchEngine {
 		frame.setBounds(100, 100, 455, 358);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		//creating hashmap with toy data
+		final HashMap<String, Double> results = new HashMap<String, Double>();
+		results.put("doc1",0.67);
+		results.put("doc2",0.246);
+		results.put("doc3",0.00054);
+		results.put("doc4",0.00000356);
+		final String [] columnNames = {"Document", "Score"};
+		final Object[][] tableData = new Object[results.keySet().size()][results.keySet().size()];
+		
 		JPanel panel_1 = new JPanel();
 		
 		final JTextArea queryTxtField = new JTextArea("query");
-		queryTxtField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				queryTxtField.setText("");
-			}
-		});
 		queryTxtField.addFocusListener(new FocusListener() {
 		    public void focusGained(FocusEvent e) {
-		    	System.out.println("e1");
 		        queryTxtField.setText("");
 		    }
 
@@ -98,6 +120,17 @@ public class SearchEngine {
 		JButton searchButton = new JButton("Search");
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+			    int index = 0;
+			    for (String key : results.keySet())
+			    {
+			        tableData[index][0] = key;
+			        tableData[index][1] = results.get(key);
+			        index++;
+			    }
+			    DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
+			    resultTable.setModel(model);
+			    //resultTable.repaint();
+			    
 			}
 		});
 		
@@ -147,7 +180,9 @@ public class SearchEngine {
 		
 		JScrollBar scrollBar = new JScrollBar();
 		
-		table = new JTable();
+		DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
+		
+		resultTable.setModel(model);
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.TRAILING)
@@ -155,7 +190,7 @@ public class SearchEngine {
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblResults, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-						.addComponent(table, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
+						.addComponent(resultTable, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(45))
@@ -167,7 +202,7 @@ public class SearchEngine {
 						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(lblResults)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(table, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+							.addComponent(resultTable, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
 							.addGap(14))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addContainerGap()
@@ -193,5 +228,6 @@ public class SearchEngine {
 					.addGap(2))
 		);
 		frame.getContentPane().setLayout(groupLayout);
+		searchButton.requestFocusInWindow();
 	}
 }
