@@ -23,6 +23,12 @@ public class Document implements Comparable<Document> {
      */
     public double getScore() { return this.score; }
 
+    /**
+     * Returns the unique identifier of this document.
+     * @return the unique identifier of this document.
+     */
+    public String getID() { return this.id; }
+
     public void setScore(double score) { this.score = score; }
 
     /**
