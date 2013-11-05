@@ -21,8 +21,9 @@ public class Document implements Comparable<Document> {
      * Returns the score assigned to this document.
      * @return the score assigned to this document.
      */
-    public double score() { return this.score; }
+    public double getScore() { return this.score; }
 
+    public void setScore(double score) { this.score = score; }
 
     /**
      * Used to sort a container of this class after query evaluation.
