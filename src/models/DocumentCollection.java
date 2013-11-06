@@ -46,6 +46,12 @@ public class DocumentCollection {
     public ArrayList<Document> getDocuments() { return this.docs; }
 
     /**
+     * Returns the number of documents in the collection.
+     * @return the number of documents in the collection.
+     */
+    public double getN() { return this.docs.size(); }
+
+    /**
      * Removes entries that have 0 score from the collection.
      */
     public void eliminateZeros() {

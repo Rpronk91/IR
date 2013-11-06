@@ -44,7 +44,7 @@ public class CollectionParser {
     /**
      * Add the token contents of a given file to the index.
      * @param f The file to be indexed.
-     * @return The getLength of the file in tokens.
+     * @return The length of the document in tokens.
      */
     private double indexFile(File f) {
         double tokenCount = 0;

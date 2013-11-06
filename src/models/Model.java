@@ -16,7 +16,7 @@ public abstract class Model {
      * Ranks the document collection based on relevance acquired by the evaluation model subclass.
      * @param query The query to be evaluated.
      */
-    protected abstract void scoreDocuments(String query);
+    protected abstract void scoreDocuments(ArrayList<Token> queryTokens);
 
     /** super Constructor. */
     public Model() {
@@ -31,7 +31,8 @@ public abstract class Model {
      * @return A sorted collection of documents to be presented as results to the query.
      */
     public DocumentCollection getRanking(String query) {
-        this.scoreDocuments(query);
+        ArrayList<Token> queryTokens = this.tokenizeQuery(query);
+        this.scoreDocuments(queryTokens);
         DocumentCollection ret = new DocumentCollection(this.documents); // clone
         ret.eliminateZeros();
         return ret;

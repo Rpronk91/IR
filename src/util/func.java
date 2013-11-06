@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * All helping functions that don't really belong to a single class.
+ * All general purpose functions that don't really belong to a single class.
  */
 public class func {
 

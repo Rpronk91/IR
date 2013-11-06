@@ -38,7 +38,6 @@ public class Index {
      */
     public Token getToken(Token t) {
         int i = this.index.indexOf(t);
-        System.out.println();
         return this.index.get( i );
     }
 

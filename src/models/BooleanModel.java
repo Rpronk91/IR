@@ -12,10 +12,8 @@ public class BooleanModel extends Model {
     }
 
     @Override
-    protected void scoreDocuments(String query) {
-        ArrayList<Token> q = super.tokenizeQuery(query); // tokenize query
-
-        for (Token queryToken : q) {
+    protected void scoreDocuments(ArrayList<Token> queryTokens) {
+        for (Token queryToken : queryTokens) {
             Token indexToken = this.index.getToken(queryToken);
             for (String documentID : indexToken.getPostingList().keySet()) {
                 this.documents.setScore(documentID, 1.0);
