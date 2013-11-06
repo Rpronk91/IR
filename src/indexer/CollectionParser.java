@@ -26,10 +26,9 @@ public class CollectionParser {
         this.index = new ArrayList<>();
         this.collectionStatistics = new HashMap<>();
 
-
         long start = System.currentTimeMillis();
         int fileno = 0;
-        System.out.print("Please wait while files are being indexed [");
+        System.out.print("Indexing [");
 
         for (File f : util.func.getDocumentCollection(root)) { // index each file.
             if (fileno++ % 10 == 0) { System.out.print("."); }
@@ -45,7 +44,7 @@ public class CollectionParser {
     /**
      * Add the token contents of a given file to the index.
      * @param f The file to be indexed.
-     * @return The length of the file in tokens.
+     * @return The getLength of the file in tokens.
      */
     private double indexFile(File f) {
         double tokenCount = 0;
@@ -59,7 +58,7 @@ public class CollectionParser {
             while ((line = br.readLine()) != null) {
                 t = new LineSplitter(line);
                 String word;
-                while ( ( word = t.getToken()) != null) {
+                while (( word = t.getToken() ) != null) {
                     this.addToken(new Token(word, docID), docID);
                     tokenCount++;
                 }
@@ -76,9 +75,9 @@ public class CollectionParser {
      * @param docID The document the token appears in.
      */
     public void addToken(Token t, String docID) {
-        int index = this.index.indexOf(t);
-        if (index > 0) { // index.contains(t)
-            this.index.get(index).addOccurence(docID);
+        int i = this.index.indexOf(t);
+        if (i > -1) { // index does contain Token t
+            this.index.get(i).addOccurrence(docID);
         } else {
             this.index.add(t);
         }
@@ -94,7 +93,7 @@ public class CollectionParser {
 
         for (int i = 0; i < tenPercent; i++) {
             this.index.remove(this.index.size() - 1 - i);
-        } System.out.println("Tokens eliminated by stopword elimination: " + tenPercent);
+        } System.out.println("Stop words eliminated: " + tenPercent);
     }
 
     /**
@@ -107,9 +106,7 @@ public class CollectionParser {
             for (Token t : this.index) {
                 fos.write((t.toString() + "\n").getBytes());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
     /**
@@ -122,8 +119,6 @@ public class CollectionParser {
                 String documentLength = " " + this.collectionStatistics.get(docID);
                 fos.write((docID + documentLength + "\n").getBytes());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) { e.printStackTrace(); }
     }
 }

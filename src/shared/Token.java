@@ -47,8 +47,8 @@ public class Token implements Comparable<Token> {
         while (m.find()) {
             String[] singleDoc = str.substring(m.start(), m.end()).split(",");
             String docID = singleDoc[0].substring(1);
-            Double freq = Double.parseDouble( singleDoc[1].substring(0, singleDoc[1].length() - 1) );
-            this.postingList.put(docID, freq);
+            Double freq = Double.parseDouble(singleDoc[1].substring(0, singleDoc[1].length() - 1));
+            ret.put(docID, freq);
         } return ret;
     }
 
@@ -58,6 +58,8 @@ public class Token implements Comparable<Token> {
      */
     public double getDF() { return this.postingList.size(); }
 
+    public String getNormalizedString() { return this.normalizedStr; }
+
     /**
      * The term frequency tf(t,d) of term t in document d is defined as the number of times that t occurs in d
      * @param docID the unique identifier of the document to look for.
@@ -65,11 +67,15 @@ public class Token implements Comparable<Token> {
      */
     public double getTF(String docID) { return this.postingList.get(docID); }
 
+    public HashMap<String, Double> getPostingList() {
+        return this.postingList;
+    }
+
     /**
-     * Increase occurence count in posting list.
+     * Increase occurrence count in posting list.
      * @param docID The id of the document to be increased.
      */
-    public void addOccurence(String docID) {
+    public void addOccurrence(String docID) {
         double prevValue = 0;
         if (this.postingList.get(docID) != null) {
             prevValue = this.postingList.get(docID);

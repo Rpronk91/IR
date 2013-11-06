@@ -5,7 +5,7 @@ import java.util.Set;
 public class Frequency {
 	
 	private Hashtable<String, Double> frequencies = 
-			new Hashtable<String, Double>();
+			new Hashtable<>();
 	
 	public Frequency(){
 	}

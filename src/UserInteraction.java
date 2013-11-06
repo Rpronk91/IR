@@ -9,7 +9,7 @@ import java.util.Hashtable;
 public class UserInteraction 
 {
 	private Hashtable<String, Frequency> invertedIndex = 
-			new Hashtable<String, Frequency>();
+			new Hashtable<>();
 	private StringNormalizer normalizer = new StringNormalizer();
 		
 	public UserInteraction(String[] args) throws IOException
