@@ -45,14 +45,18 @@ public class SearchEngine {
     /**
      * Takes care of the buttonPressed event.
      */
-    private void searchButtonPressed() {
-        // TODO read all inputs.
-        String query = "";  // jTextfield
-        String method = ""; // jDropdown
+    private void searchButtonPressed(String query, String method) {
+        // TODO read all inputs.        
+        //System.out.println(query + ", " + method);
 
         // for now create a arraylist that contains dummy documents
         // eventually will be something like : model.getRanking();
         ArrayList<Document> result = new ArrayList<>();
+        result.add(new Document("doc1", 0.1));
+        result.add(new Document("doc2", 0.8));
+        result.add(new Document("doc3", 0.3));
+        result.add(new Document("doc4", 0.5));
+        result.add(new Document("doc4", 0.5));
 
         populateResults(result);
     }
@@ -62,11 +66,19 @@ public class SearchEngine {
      * @param ranking An arraylist of documents.
      */
     private void populateResults(ArrayList<Document> ranking) {
+        String [] columnNames = {"Document", "Score"};
+        Object[][] tableData = new Object[ranking.size()][ranking.size()];
+        int index = 0;
         for (Document d : ranking) {
             String id = d.getID();
             Double score = d.getScore();
+            tableData[index][0] = id;
+            tableData[index][1] = score;
+            index++;
             // TODO
         }
+        DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
+        resultTable.setModel(model);
     }
 
     /**
@@ -77,16 +89,9 @@ public class SearchEngine {
         frame.setBounds(100, 100, 455, 358);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //creating hashmap with toy data
-        final HashMap<String, Double> results = new HashMap<String, Double>();
-        results.put("doc1", 0.67);
-        results.put("doc2", 0.246);
-        results.put("doc3", 0.00054);
-        results.put("doc4", 0.00000356);
-        final String [] columnNames = {"Document", "Score"};
-        final Object[][] tableData = new Object[results.keySet().size()][results.keySet().size()];
-
         JPanel panel_1 = new JPanel();
+        
+        final JComboBox methodsScrollBar = new JComboBox();
 
         final JTextArea queryTxtField = new JTextArea("query");
         queryTxtField.addFocusListener(new FocusListener() {
@@ -104,20 +109,9 @@ public class SearchEngine {
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                int index = 0;
-                for (String key : results.keySet()) {
-                    tableData[index][0] = key;
-                    tableData[index][1] = results.get(key);
-                    index++;
-                }
-                DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
-                resultTable.setModel(model);
-                //resultTable.repaint();
-
+                searchButtonPressed(queryTxtField.getText(), methodsScrollBar.getSelectedIndex()+"");
             }
         });
-
-        JComboBox methodsScrollBar = new JComboBox();
 
         JSeparator separator = new JSeparator();
 
@@ -163,6 +157,8 @@ public class SearchEngine {
 
         JScrollBar scrollBar = new JScrollBar();
 
+        String [] columnNames = {"Document", "Score"};
+        Object[][] tableData = new Object[4][4];
         DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
 
         resultTable.setModel(model);
