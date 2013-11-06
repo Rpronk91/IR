@@ -56,9 +56,7 @@ public class CollectionParser {
             BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
             String line;
-
             while ((line = br.readLine()) != null) {
-
                 t = new LineSplitter(line);
                 String word;
                 while ( ( word = t.getToken()) != null) {
@@ -66,8 +64,7 @@ public class CollectionParser {
                     tokenCount++;
                 }
             }
-            fis.close();
-            br.close();
+            fis.close(); br.close();
         } catch (IOException ex) { ex.printStackTrace(); }
         return tokenCount;
     }

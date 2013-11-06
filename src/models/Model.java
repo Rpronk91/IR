@@ -3,7 +3,9 @@ package models;
 import indexer.LineSplitter;
 import shared.Document;
 import shared.Token;
+import util.Settings;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,7 +15,8 @@ import java.util.HashMap;
  * This is the abstract class that need to be delegated by each model. All shared methods between models belong here.
  */
 public abstract class Model {
-    ArrayList<Document> documentCollection;
+    protected ArrayList<Document> documentCollection;
+    protected ArrayList<Token> index;
 
     /**
      * Ranks the document collection based on relevance acquired by the evaluation model subclass.
@@ -24,7 +27,9 @@ public abstract class Model {
     /** super Constructor. */
     public Model() {
         this.documentCollection = new ArrayList<>();
-        initDocumentCollection();
+        this.index = new ArrayList<>();
+        this.initDocumentCollection();
+        this.initIndex();
     }
 
     /**
@@ -35,6 +40,24 @@ public abstract class Model {
         for (String id : documentStatistics.keySet()) {
             documentCollection.add( new Document(id, documentStatistics.get(id)) );
         }
+    }
+
+    /**
+     * Parses the index output file and initializes the index accordingly.
+     */
+    protected void initIndex() {
+        try {
+            File f = new File(Settings.INDEX_FNAME);
+            FileInputStream fis = new FileInputStream(f);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                this.index.add( new Token(line) );
+            }
+            fis.close(); br.close();
+        } catch (IOException ex) { ex.printStackTrace(); }
     }
 
     /**
@@ -62,25 +85,9 @@ public abstract class Model {
         String word;
         while ( (word = ls.getToken()) != null) {
             Token token = new Token(word, "query");
-            if ( !ret.contains(token) ){
+            if ( !ret.contains(token) ) {
                 ret.add(token);
             }
-        }
-        return ret;
+        } return ret;
     }
-
-//    /**
-//     * Will add the token if it is a new occurrence. If it is already contained in the index it will just increase its'
-//     * occurrence count in the given document.
-//     * @param t Token to be added.
-//     * @param docID The document the token appears in.
-//     */
-//    public void addToken(Token t, String docID) {
-//        int index = this.index.indexOf(t);
-//        if (index > 0) { // index.contains(t)
-//            this.index.get(index).addOccurence(docID);
-//        } else {
-//            this.index.add(t);
-//        }
-//    }
 }

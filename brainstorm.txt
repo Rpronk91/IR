@@ -1,0 +1,11 @@
+Possible extension ideas go here. So we won't forget later!
+
+ + Generate result preview (like google's snippets)
+ + Add Named entity recognition in StringNormalizer
+ +
+
+
+Questions that might need answering:
+
+ - Is it okay if we load the whole index file in the Models ?
+ -

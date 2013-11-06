@@ -3,7 +3,6 @@ package SearchEngine;
 import indexer.CollectionParser;
 import models.BooleanModel;
 import models.Model;
-import util.Settings;
 
 import java.util.ArrayList;
 
@@ -31,7 +30,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        doIndexing(Settings.DOCUMENT_COLLECTION);
+//        doIndexing(Settings.DOCUMENT_COLLECTION);
 
         doQuerying();
     }
