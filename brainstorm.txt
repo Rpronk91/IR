@@ -8,4 +8,4 @@ Possible extension ideas go here. So we won't forget later!
 Questions that might need answering:
 
  - Is it okay if we load the whole index file in the Models ? "Yes it is" Anne
- -
+ - How do we parse quotes?
