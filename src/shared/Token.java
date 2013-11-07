@@ -65,7 +65,11 @@ public class Token implements Comparable<Token> {
      * @param docID the unique identifier of the document to look for.
      * @return the count of appearances of the token in a specific document.
      */
-    public double getTF(String docID) { return this.postingList.get(docID); }
+    public double getTF(String docID) {
+        if (this.postingList.containsKey(docID)) { return this.postingList.get(docID); }
+        else { return Double.NaN; }
+
+    }
 
     public HashMap<String, Double> getPostingList() {
         return this.postingList;
