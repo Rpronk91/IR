@@ -68,7 +68,6 @@ public class Token implements Comparable<Token> {
     public double getTF(String docID) {
         if (this.postingList.containsKey(docID)) { return this.postingList.get(docID); }
         else { return Double.NaN; }
-
     }
 
     public HashMap<String, Double> getPostingList() {
