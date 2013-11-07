@@ -45,7 +45,7 @@ public class Token implements Comparable<Token> {
         Matcher m = p.matcher(str);
 
         while (m.find()) {
-            String[] singleDoc = str.substring(m.start(), m.end()).split(",");
+            String[] singleDoc = str.substring(m.start(), m.end()).split(" ");
             String docID = singleDoc[0].substring(1);
             Double freq = Double.parseDouble(singleDoc[1].substring(0, singleDoc[1].length() - 1));
             ret.put(docID, freq);
@@ -103,7 +103,7 @@ public class Token implements Comparable<Token> {
     public String toString() {
         String ret = this.normalizedStr + "\t";
         for (String s : this.postingList.keySet()) {
-            ret += "{" + s + ", " + this.postingList.get(s) + "}";
+            ret += "{" + s + " " + this.postingList.get(s) + "}";
         } return ret;
     }
 
