@@ -9,4 +9,7 @@ public class Settings {
 
     public static final String DOCUMENT_STATS_FNAME= "collectionStats.out"; /* collection statistics filename */
     public static final String INDEX_FNAME         = "index.out";           /* index filename */
+
+    public static final double BM25_k              = 0.5;
+    public static final double BM25_b              = 0.5;
 }

@@ -1,9 +1,7 @@
 package SearchEngine;
 
 import indexer.CollectionParser;
-import models.BooleanModel;
-import models.DocumentCollection;
-import models.Model;
+import models.*;
 import shared.Document;
 import util.Settings;
 
@@ -28,15 +26,19 @@ public class Main {
     private static void doQuerying() {
         ArrayList<Model> models = new ArrayList<>();
         models.add( new BooleanModel() );
+        models.add( new TFIDFModel() );
+        models.add( new BM25Model() );
 
-        DocumentCollection res = models.get(0).getRanking("manufacturingmanufacturingmaterialsmateri");
+//        DocumentCollection res = models.get(0).getRanking("manufacturingmanufacturingmaterialsmateri");
+        DocumentCollection res = models.get(1).getRanking("manufacturingmanufacturingmaterialsmateri");
+//        DocumentCollection res = models.get(2).getRanking("manufacturingmanufacturingmaterialsmateri");
         for (Document d : res.getDocuments()) {
             System.out.println(d);
         }
     }
 
     public static void main(String[] args) {
-        doIndexing(Settings.DOCUMENT_COLLECTION);
+//        doIndexing(Settings.DOCUMENT_COLLECTION);
 
         doQuerying();
     }

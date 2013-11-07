@@ -52,11 +52,22 @@ public class DocumentCollection {
     public double getN() { return this.docs.size(); }
 
     /**
+     * Returns the average length of the documents in the collection.
+     * @return the average length of the documents in the collection.
+     */
+    public double getAverageLength() {
+        double ret = 0.0;
+        for (Document d : this.docs) {
+            ret += d.getLength() / this.docs.size();
+        } return ret;
+    }
+
+    /**
      * Removes entries that have 0 score from the collection.
      */
     public void eliminateZeros() {
         for(Iterator<Document> i = this.docs.iterator(); i.hasNext();) {
-            if (i.next().getScore() == 0.0) { i.remove(); }
+            if (Double.isNaN(i.next().getScore())) { i.remove(); }
         }
     }
 }
