@@ -68,7 +68,7 @@ public class Document implements Comparable<Document> {
         if (this.score == other.score) {
             return Double.compare(this.length, other.length);
         } else {
-            return Double.compare(this.score, other.score);
+            return -Double.compare(this.score, other.score);
         }
     }
 }

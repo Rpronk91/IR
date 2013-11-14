@@ -3,6 +3,7 @@ package models;
 import shared.Document;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -62,12 +63,17 @@ public class DocumentCollection {
         } return ret;
     }
 
+    public void sort() {
+        Collections.sort(this.docs);
+    }
+
     /**
-     * Removes entries that have 0 score from the collection.
+     * Removes entries that do not have a positive value score from the collection.
      */
-    public void eliminateZeros() {
+    public void eliminateInvalidScores() {
         for(Iterator<Document> i = this.docs.iterator(); i.hasNext();) {
-            if (Double.isNaN(i.next().getScore())) { i.remove(); }
+            double score = i.next().getScore();
+            if (Double.isNaN(score) || score <= 0.0) { i.remove(); }
         }
     }
 }

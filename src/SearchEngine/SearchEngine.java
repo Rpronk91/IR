@@ -6,46 +6,18 @@ import models.Model;
 import models.TFIDFModel;
 import shared.Document;
 
-import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class SearchEngine {
-    // window related.
-    private JFrame frame;
-    private JTable resultTable = new JTable();
-    private JComboBox methodsComboBox;
-    private JTextArea queryTxtField;
+public class SearchEngine extends javax.swing.JFrame {
 
-    // rest.
     private ArrayList<Model> models;
 
     /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    SearchEngine window = new SearchEngine();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     * Create the application.
+     * Creates new form Form
      */
     public SearchEngine() {
         this.models = new ArrayList<>();
@@ -53,7 +25,123 @@ public class SearchEngine {
         models.add( new TFIDFModel() );
         models.add( new BM25Model() );
 
-        initialize(); // initialize the window
+        initComponents();
+    }
+
+    private void initComponents() {
+        jPanel1 = new javax.swing.JPanel();
+        searchLabel = new javax.swing.JLabel();
+        modelLabel = new javax.swing.JLabel();
+        modelsComboBox = new javax.swing.JComboBox();
+        queryTextField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        resultsTable = new javax.swing.JTable();
+        statusLabel = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        searchLabel.setText("Search");
+
+        modelLabel.setText("Model");
+
+        modelsComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.getModelNames()));
+
+        queryTextField.setText("");
+
+        searchButton.setText("Search!");
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                searchButtonPressed();
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(searchButton)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(searchLabel)
+                                                .addComponent(modelLabel))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(modelsComboBox, 0, 271, Short.MAX_VALUE)
+                                                .addComponent(queryTextField))))
+                        .addContainerGap(37, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator1)
+                        .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(searchLabel)
+                                .addComponent(queryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(modelLabel)
+                                .addComponent(modelsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        resultsTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][]{
+                        {null, null}, {null, null}, {null, null}, {null, null}, {null, null}, {null, null},
+                        {null, null}, {null, null}, {null, null}, {null, null}, {null, null}, {null, null},
+                        {null, null}, {null, null}, {null, null}
+                },
+                new String[]{"Document ID", "Score"}
+        ));
+        jScrollPane1.setViewportView(resultsTable);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap(13, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+        );
+
+        statusLabel.setText("Idle");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(statusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(statusLabel))
+        );
+
+        pack();
     }
 
     /**
@@ -63,9 +151,7 @@ public class SearchEngine {
     private String[] getModelNames() {
         String[] ret = new String[this.models.size()];
         int i = 0;
-        for (Model m : this.models) {
-            ret[i++] = m.toString();
-        }
+        for (Model m : this.models) { ret[i++] = m.toString(); }
         return ret;
     }
 
@@ -74,15 +160,13 @@ public class SearchEngine {
      * @return the selected model from the models container.
      */
     private Model getSelectedModel() {
-        int i = this.methodsComboBox.getSelectedIndex();
+        int i = this.modelsComboBox.getSelectedIndex();
         return this.models.get(i);
     }
 
-    /**
-     * Takes care of the buttonPressed event.
-     */
     private void searchButtonPressed() {
-        String query = this.queryTxtField.getText(); // TODO get it
+        // TODO add your handling code here:
+        String query = this.queryTextField.getText();
         Model m = getSelectedModel();
 
         populateResults(m.getRanking(query).getDocuments());
@@ -104,135 +188,55 @@ public class SearchEngine {
             index++;
         }
         DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
-        resultTable.setModel(model);
+        this.resultsTable.setModel(model);
     }
 
     /**
-     * Initialize the contents of the frame.
+     * @param args the command line arguments
      */
-    private void initialize() {
-        frame = new JFrame();
-        frame.setBounds(100, 100, 455, 358);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JPanel panel_1 = new JPanel();
-
-        this.methodsComboBox = new JComboBox(this.getModelNames());
-
-        this.queryTxtField = new JTextArea("query");
-        queryTxtField.addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent e) {
-                queryTxtField.setText("");
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Window.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
 
-            public void focusLost(FocusEvent e) {
-                // nothing
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                SearchEngine se = new SearchEngine();
+                se.setVisible(true);
+                se.setResizable(false);
             }
         });
-        queryTxtField.setAlignmentX(Component.LEFT_ALIGNMENT);
-        queryTxtField.setTabSize(1);
-
-        JButton searchButton = new JButton("Search");
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                searchButtonPressed();
-            }
-        });
-
-        JSeparator separator = new JSeparator();
-
-        JLabel lblQuery = new JLabel("Query");
-
-        JLabel lblMethods = new JLabel("Methods");
-        GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-        gl_panel_1.setHorizontalGroup(
-            gl_panel_1.createParallelGroup(Alignment.LEADING)
-                .addComponent(separator, GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                .addGroup(gl_panel_1.createSequentialGroup()
-                    .addGap(25)
-                    .addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-                        .addComponent(methodsComboBox, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblMethods)
-                        .addComponent(lblQuery)
-                        .addGroup(gl_panel_1.createSequentialGroup()
-                            .addComponent(queryTxtField, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(ComponentPlacement.RELATED)
-                            .addComponent(searchButton, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)))
-                    .addGap(80))
-        );
-        gl_panel_1.setVerticalGroup(
-                gl_panel_1.createParallelGroup(Alignment.LEADING)
-                        .addGroup(gl_panel_1.createSequentialGroup()
-                                .addComponent(lblQuery)
-                                .addPreferredGap(ComponentPlacement.RELATED)
-                                .addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-                                        .addComponent(searchButton)
-                                        .addComponent(queryTxtField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(ComponentPlacement.RELATED)
-                                .addComponent(lblMethods)
-                                .addPreferredGap(ComponentPlacement.RELATED)
-                                .addComponent(methodsComboBox, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(ComponentPlacement.UNRELATED)
-                                .addComponent(separator, GroupLayout.PREFERRED_SIZE, 11, GroupLayout.PREFERRED_SIZE))
-        );
-        panel_1.setLayout(gl_panel_1);
-
-        JPanel panel = new JPanel();
-
-        JLabel lblResults = new JLabel("Results");
-
-        JScrollBar scrollBar = new JScrollBar();
-
-        String [] columnNames = {"Document", "Score"};
-        Object[][] tableData = new Object[4][4];
-        DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
-
-        resultTable.setModel(model);
-        GroupLayout gl_panel = new GroupLayout(panel);
-        gl_panel.setHorizontalGroup(
-            gl_panel.createParallelGroup(Alignment.TRAILING)
-                .addGroup(gl_panel.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-                        .addComponent(lblResults, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-                        .addComponent(resultTable, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))
-                    .addPreferredGap(ComponentPlacement.RELATED)
-                    .addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                    .addGap(45))
-        );
-        gl_panel.setVerticalGroup(
-            gl_panel.createParallelGroup(Alignment.LEADING)
-                .addGroup(gl_panel.createSequentialGroup()
-                    .addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-                        .addGroup(gl_panel.createSequentialGroup()
-                            .addComponent(lblResults)
-                            .addPreferredGap(ComponentPlacement.RELATED)
-                            .addComponent(resultTable, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addGap(14))
-                        .addGroup(gl_panel.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(scrollBar, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0))
-        );
-        panel.setLayout(gl_panel);
-        GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-        groupLayout.setHorizontalGroup(
-            groupLayout.createParallelGroup(Alignment.LEADING)
-                .addGroup(groupLayout.createSequentialGroup()
-                    .addGap(10)
-                    .addComponent(panel, GroupLayout.DEFAULT_SIZE, 449, Short.MAX_VALUE)
-                    .addGap(10))
-                .addComponent(panel_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        groupLayout.setVerticalGroup(
-                groupLayout.createParallelGroup(Alignment.TRAILING)
-                        .addGroup(groupLayout.createSequentialGroup()
-                                .addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
-                                .addGap(18)
-                                .addComponent(panel, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-                                .addGap(2))
-        );
-        frame.getContentPane().setLayout(groupLayout);
-        searchButton.requestFocusInWindow();
     }
+
+    // window components
+    private javax.swing.JButton searchButton;
+    private javax.swing.JComboBox modelsComboBox;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JLabel searchLabel;
+    private javax.swing.JLabel modelLabel;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable resultsTable;
+    private javax.swing.JTextField queryTextField;
 }

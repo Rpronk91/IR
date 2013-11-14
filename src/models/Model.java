@@ -4,6 +4,7 @@ import indexer.LineSplitter;
 import shared.Token;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * This is the abstract class that need to be delegated by each model. All shared methods between models belong here.
@@ -33,7 +34,8 @@ public abstract class Model {
     public DocumentCollection getRanking(String query) {
         this.scoreDocuments(query);
         DocumentCollection ret = new DocumentCollection(this.documents); // clone
-        ret.eliminateZeros();
+        ret.eliminateInvalidScores();
+        ret.sort();
         return ret;
     }
 

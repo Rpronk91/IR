@@ -24,21 +24,8 @@ public class Main {
         cp.outputCollectionStatistics();                  // Collection stats file created.
     }
 
-    private static void doQuerying() {
-        ArrayList<Model> models = new ArrayList<>();
-        models.add( new BooleanModel() );
-        models.add( new TFIDFModel() );
-        models.add( new BM25Model() );
-
-//        DocumentCollection res = models.get(0).getRanking("manufacturingmanufacturingmaterialsmateri");
-        DocumentCollection res = models.get(1).getRanking("manufacturingmanufacturingmaterialsmateri");
-//        DocumentCollection res = models.get(2).getRanking("manufacturingmanufacturingmaterialsmateri");
-        for (Document d : res.getDocuments()) {
-            System.out.println(d);
-        }
-    }
-
     /**
+     * TODO move this to SearchEngine.java and add a dialog for it. e.g. 'Wait while collection is being indexed'
      * Returns true if the index file and collection statistics files exist.
      * @return true if the index file and collection statistics files exist.
      */
@@ -52,6 +39,5 @@ public class Main {
         if (!indexingNotRequired()) {
             doIndexing(Settings.DOCUMENT_COLLECTION);
         }
-        doQuerying();
     }
 }
