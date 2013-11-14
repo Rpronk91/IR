@@ -1,5 +1,9 @@
 package SearchEngine;
 
+import models.BM25Model;
+import models.BooleanModel;
+import models.Model;
+import models.TFIDFModel;
 import shared.Document;
 
 import javax.swing.*;
@@ -15,9 +19,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SearchEngine {
-
+    // window related.
     private JFrame frame;
     private JTable resultTable = new JTable();
+    private JComboBox methodsComboBox;
+
+    // rest.
+    private ArrayList<Model> models;
 
     /**
      * Launch the application.
@@ -39,33 +47,51 @@ public class SearchEngine {
      * Create the application.
      */
     public SearchEngine() {
-        initialize();
+        this.models = new ArrayList<>();
+        models.add( new BooleanModel() );
+        models.add( new TFIDFModel() );
+        models.add( new BM25Model() );
+
+        initialize(); // initialize the window
+
+        this.populateComboBox();
+    }
+
+    /**
+     * Populates the combo box with the methods contained in this.models.
+     * TODO
+     */
+    private void populateComboBox() {
+        for (Model m : this.models) {
+            String model = m.toString();
+
+        }
+    }
+
+    /**
+     * Returns the selected model from the models container.
+     * @return the selected model from the models container.
+     */
+    private Model getSelectedModel() {
+        int i = this.methodsComboBox.getSelectedIndex();
+        return this.models.get(i);
     }
 
     /**
      * Takes care of the buttonPressed event.
      */
-    private void searchButtonPressed(String query, String method) {
-        // TODO read all inputs.        
-        //System.out.println(query + ", " + method);
+    private void searchButtonPressed() {
+        String query = ""; // TODO get it
+        Model m = getSelectedModel();
 
-        // for now create a arraylist that contains dummy documents
-        // eventually will be something like : model.getRanking();
-        ArrayList<Document> result = new ArrayList<>();
-        result.add(new Document("doc1", 0.1));
-        result.add(new Document("doc2", 0.8));
-        result.add(new Document("doc3", 0.3));
-        result.add(new Document("doc4", 0.5));
-        result.add(new Document("doc4", 0.5));
-
-        populateResults(result);
+        populateResults(m.getRanking(query).getDocuments());
     }
 
     /**
      * Populates the result section's jTable given an arraylist of documents.
      * @param ranking An arraylist of documents.
      */
-    private void populateResults(ArrayList<Document> ranking) {
+    public void populateResults(ArrayList<Document> ranking) {
         String [] columnNames = {"Document", "Score"};
         Object[][] tableData = new Object[ranking.size()][ranking.size()];
         int index = 0;
@@ -75,7 +101,6 @@ public class SearchEngine {
             tableData[index][0] = id;
             tableData[index][1] = score;
             index++;
-            // TODO
         }
         DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
         resultTable.setModel(model);
@@ -90,8 +115,8 @@ public class SearchEngine {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel_1 = new JPanel();
-        
-        final JComboBox methodsScrollBar = new JComboBox();
+
+        methodsComboBox = new JComboBox();
 
         final JTextArea queryTxtField = new JTextArea("query");
         queryTxtField.addFocusListener(new FocusListener() {
@@ -109,7 +134,7 @@ public class SearchEngine {
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                searchButtonPressed(queryTxtField.getText(), methodsScrollBar.getSelectedIndex()+"");
+                searchButtonPressed();
             }
         });
 
@@ -125,7 +150,7 @@ public class SearchEngine {
                 .addGroup(gl_panel_1.createSequentialGroup()
                     .addGap(25)
                     .addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-                        .addComponent(methodsScrollBar, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(methodsComboBox, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblMethods)
                         .addComponent(lblQuery)
                         .addGroup(gl_panel_1.createSequentialGroup()
@@ -145,7 +170,7 @@ public class SearchEngine {
                                 .addPreferredGap(ComponentPlacement.RELATED)
                                 .addComponent(lblMethods)
                                 .addPreferredGap(ComponentPlacement.RELATED)
-                                .addComponent(methodsScrollBar, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(methodsComboBox, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(ComponentPlacement.UNRELATED)
                                 .addComponent(separator, GroupLayout.PREFERRED_SIZE, 11, GroupLayout.PREFERRED_SIZE))
         );

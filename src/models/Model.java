@@ -56,4 +56,9 @@ public abstract class Model {
             }
         } return ret;
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

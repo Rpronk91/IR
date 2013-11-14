@@ -5,6 +5,7 @@ import models.*;
 import shared.Document;
 import util.Settings;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Main {
@@ -37,9 +38,20 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        doIndexing(Settings.DOCUMENT_COLLECTION);
+    /**
+     * Returns true if the index file and collection statistics files exist.
+     * @return true if the index file and collection statistics files exist.
+     */
+    private static boolean indexingNotRequired() {
+        File index = new File(Settings.INDEX_FNAME);
+        File stats = new File(Settings.DOCUMENT_STATS_FNAME);
+        return index.exists() && stats.exists();
+    }
 
+    public static void main(String[] args) {
+        if (!indexingNotRequired()) {
+            doIndexing(Settings.DOCUMENT_COLLECTION);
+        }
         doQuerying();
     }
 }
