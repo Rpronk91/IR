@@ -4,13 +4,13 @@ import indexer.LineSplitter;
 import shared.Token;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * This is the abstract class that need to be delegated by each model. All shared methods between models belong here.
  */
 public abstract class Model {
-    protected DocumentCollection documents;
+    protected final DocumentCollection documentStatistics; /** Not to be changed. */
+    protected DocumentCollection returnSet;
     protected Index index;
 
     /**
@@ -21,7 +21,7 @@ public abstract class Model {
 
     /** super Constructor. */
     public Model() {
-        this.documents = new DocumentCollection();
+        this.documentStatistics = new DocumentCollection();
         this.index = new Index();
     }
 
@@ -32,11 +32,11 @@ public abstract class Model {
      * @return A sorted collection of documents to be presented as results to the query.
      */
     public DocumentCollection getRanking(String query) {
+        this.returnSet = new DocumentCollection(this.documentStatistics); // clone
         this.scoreDocuments(query);
-        DocumentCollection ret = new DocumentCollection(this.documents); // clone
-        ret.eliminateInvalidScores();
-        ret.sort();
-        return ret;
+        returnSet.eliminateInvalidScores();
+        returnSet.sort();
+        return returnSet;
     }
 
     /**
@@ -60,7 +60,5 @@ public abstract class Model {
     }
 
     @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
+    public String toString() { return this.getClass().getSimpleName(); }
 }

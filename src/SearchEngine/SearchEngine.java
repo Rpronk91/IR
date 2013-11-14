@@ -21,38 +21,38 @@ public class SearchEngine extends javax.swing.JFrame {
      */
     public SearchEngine() {
         this.models = new ArrayList<>();
-        models.add( new BooleanModel() );
-        models.add( new TFIDFModel() );
-        models.add( new BM25Model() );
+        this.models.add( new BooleanModel() );
+        this.models.add( new TFIDFModel() );
+        this.models.add( new BM25Model() );
 
         initComponents();
     }
 
     private void initComponents() {
-        jPanel1 = new javax.swing.JPanel();
-        searchLabel = new javax.swing.JLabel();
-        modelLabel = new javax.swing.JLabel();
-        modelsComboBox = new javax.swing.JComboBox();
-        queryTextField = new javax.swing.JTextField();
-        searchButton = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        resultsTable = new javax.swing.JTable();
-        statusLabel = new javax.swing.JLabel();
+        this.jPanel1 = new javax.swing.JPanel();
+        this.searchLabel = new javax.swing.JLabel();
+        this.modelLabel = new javax.swing.JLabel();
+        this.modelsComboBox = new javax.swing.JComboBox();
+        this.queryTextField = new javax.swing.JTextField();
+        this.searchButton = new javax.swing.JButton();
+        this.jSeparator1 = new javax.swing.JSeparator();
+        this.jPanel2 = new javax.swing.JPanel();
+        this.jScrollPane1 = new javax.swing.JScrollPane();
+        this.resultsTable = new javax.swing.JTable();
+        this.statusLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        searchLabel.setText("Search");
+        this.searchLabel.setText("Search");
 
-        modelLabel.setText("Model");
+        this.modelLabel.setText("Model");
 
-        modelsComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.getModelNames()));
+        this.modelsComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.getModelNames()));
 
-        queryTextField.setText("");
+        this.queryTextField.setText("");
 
-        searchButton.setText("Search!");
-        searchButton.addActionListener(new ActionListener() {
+        this.searchButton.setText("Search!");
+        this.searchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 searchButtonPressed();
             }
@@ -97,15 +97,20 @@ public class SearchEngine extends javax.swing.JFrame {
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        resultsTable.setModel(new javax.swing.table.DefaultTableModel(
+        this.resultsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{
-                {null, null}, {null, null}, {null, null}, {null, null}, {null, null}, {null, null},
-                {null, null}, {null, null}, {null, null}, {null, null}, {null, null}, {null, null},
-                {null, null}, {null, null}, {null, null}
+                {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null},
+                {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null},
+                {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}, {null, null, null}
             },
-            new String[]{"Document ID", "Score"}
+            new String[]{"#", "Document ID", "Score"}
         ));
-        jScrollPane1.setViewportView(resultsTable);
+        this.resultsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        this.resultsTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+        this.resultsTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+
+        this.jScrollPane1.setViewportView(resultsTable);
+
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -121,7 +126,7 @@ public class SearchEngine extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
         );
 
-        statusLabel.setText("Idle");
+        this.statusLabel.setText("Idle");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,30 +176,26 @@ public class SearchEngine extends javax.swing.JFrame {
     }
 
     /**
-     * Clear the results table jTable.
-     */
-    private void clearResultsTable() {
-        // TODO
-    }
-
-    /**
      * Populates the result section's jTable given an arraylist of documents.
      * @param ranking An arraylist of documents.
      */
     private void populateResults(ArrayList<Document> ranking) {
-        this.clearResultsTable();
-        String [] columnNames = {"Document", "Score"};
-        Object[][] tableData = new Object[ranking.size()][ranking.size()];
+        String [] columnNames = {"#", "Document ID", "Score"};
+        Object[][] tableData = new Object[ranking.size()][3];
         int index = 0;
         for (Document d : ranking) {
             String id = d.getID();
             Double score = d.getScore();
-            tableData[index][0] = id;
-            tableData[index][1] = score;
+            tableData[index][0] = index + 1;
+            tableData[index][1] = id;
+            tableData[index][2] = score;
             index++;
         }
         DefaultTableModel model = new DefaultTableModel(tableData, columnNames);
         this.resultsTable.setModel(model);
+        this.resultsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
+        this.resultsTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+        this.resultsTable.getColumnModel().getColumn(2).setPreferredWidth(120);
     }
 
     /**
