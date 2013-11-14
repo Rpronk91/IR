@@ -53,19 +53,19 @@ public class SearchEngine {
         models.add( new BM25Model() );
 
         initialize(); // initialize the window
-
-        this.populateComboBox();
     }
 
     /**
-     * Populates the combo box with the methods contained in this.models.
-     * TODO
+     * Returns a string array containing the model names available.
+     * @return a string array containing the model names available.
      */
-    private void populateComboBox() {
+    private String[] getModelNames() {
+        String[] ret = new String[this.models.size()];
+        int i = 0;
         for (Model m : this.models) {
-            String model = m.toString();
-
+            ret[i++] = m.toString();
         }
+        return ret;
     }
 
     /**
@@ -116,7 +116,7 @@ public class SearchEngine {
 
         JPanel panel_1 = new JPanel();
 
-        methodsComboBox = new JComboBox();
+        methodsComboBox = new JComboBox(this.getModelNames());
 
         final JTextArea queryTxtField = new JTextArea("query");
         queryTxtField.addFocusListener(new FocusListener() {
