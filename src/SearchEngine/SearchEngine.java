@@ -23,6 +23,7 @@ public class SearchEngine {
     private JFrame frame;
     private JTable resultTable = new JTable();
     private JComboBox methodsComboBox;
+    private JTextArea queryTxtField;
 
     // rest.
     private ArrayList<Model> models;
@@ -81,7 +82,7 @@ public class SearchEngine {
      * Takes care of the buttonPressed event.
      */
     private void searchButtonPressed() {
-        String query = ""; // TODO get it
+        String query = this.queryTxtField.getText(); // TODO get it
         Model m = getSelectedModel();
 
         populateResults(m.getRanking(query).getDocuments());
@@ -116,9 +117,9 @@ public class SearchEngine {
 
         JPanel panel_1 = new JPanel();
 
-        methodsComboBox = new JComboBox(this.getModelNames());
+        this.methodsComboBox = new JComboBox(this.getModelNames());
 
-        final JTextArea queryTxtField = new JTextArea("query");
+        this.queryTxtField = new JTextArea("query");
         queryTxtField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 queryTxtField.setText("");
