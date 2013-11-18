@@ -6,6 +6,7 @@ import models.Model;
 import models.TFIDFModel;
 import shared.Document;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -169,10 +170,23 @@ public class SearchEngine extends javax.swing.JFrame {
     }
 
     private void searchButtonPressed() {
+        if (!this.inputIsValid()) {
+            JOptionPane.showMessageDialog(this, "Invalid input!");
+            return;
+        }
         String query = this.queryTextField.getText();
         Model m = getSelectedModel();
 
         populateResults(m.getRanking(query).getDocuments());
+    }
+
+    /**
+     * Returns true if all the user-provided input is valid and retrieval can begin. (Extend if more input fields are
+     * introduced.)
+     * @return True if all the user-provided input is valid and retrieval can begin.
+     */
+    private boolean inputIsValid() {
+        return this.queryTextField.getText().length() > 0;
     }
 
     /**
