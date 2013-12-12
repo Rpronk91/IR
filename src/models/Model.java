@@ -2,8 +2,11 @@ package models;
 
 import indexer.LineSplitter;
 import shared.Token;
+import util.Settings;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * This is the abstract class that need to be delegated by each model. All shared methods between models belong here.
@@ -12,6 +15,7 @@ public abstract class Model {
     protected final DocumentCollection documentStatistics; /** Not to be changed. */
     protected DocumentCollection returnSet;
     protected Index index;
+    protected HashSet<String> stopwords;
 
     /**
      * Ranks the document collection based on relevance acquired by the evaluation model subclass.
@@ -22,6 +26,7 @@ public abstract class Model {
     /** super Constructor. */
     public Model() {
         this.documentStatistics = new DocumentCollection();
+        this.initStopWords();
         this.index = new Index();
     }
 
@@ -52,11 +57,35 @@ public abstract class Model {
 
         String word;
         while ( (word = ls.getToken()) != null) {
+            if ( this.stopwords.contains(word) ) { continue; }
+
             Token token = new Token(word, "query");
-            if ( !ret.contains(token) ) {
+            if ( !ret.contains(token)) {
                 ret.add(token);
             }
-        } return ret;
+        }
+        return ret;
+    }
+
+    /**
+     * Reads the stopword file and initializes the stopword container
+     */
+    private void initStopWords() {
+        this.stopwords = new HashSet<>();
+
+        try {
+            File f = new File(Settings.STOPWRDS_FNAME);
+            FileInputStream fis = new FileInputStream(f);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                Token temp = new Token(line);
+
+                this.stopwords.add( temp.getNormalizedString() );
+            }
+            fis.close(); br.close();
+        } catch (IOException ex) { ex.printStackTrace(); }
     }
 
     @Override

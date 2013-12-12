@@ -11,7 +11,8 @@ public class Settings {
     public static final String INDEX_FNAME         = "index.out";           /* index filename */
     public static final String STOPWRDS_FNAME      = "stopwords.out";       /* stopwords filename */
 
-    public static final double stopword_ratio      = 0.05; /* Percentage of words that will be eliminated from index */
+    public static final double stopword_ratio      = 0.7; /* Words that are contained over this ratio of the corpus size
+                                                                                                   will be eliminated */
 
     public static final double BM25_k              = 0.5;
     public static final double BM25_b              = 0.5;

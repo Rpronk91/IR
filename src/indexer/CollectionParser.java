@@ -88,15 +88,17 @@ public class CollectionParser {
      * corpus (the ratio is defined in util.Setting class)
      */
     public void eliminateStopwords() {
-        double sw_ratio = Settings.stopword_ratio;
         Collections.sort(this.index);
 
-        int elim = (int) (sw_ratio * this.index.size());
-        List <Token> stopwords = new ArrayList<>(elim);
-        for (int i = this.index.size() - elim; i < this.index.size(); i++) {
-            Token t = this.index.get(i);
-            stopwords.add(t);
-        } this.index.removeAll(stopwords);
+        double dfThreshold = this.collectionStatistics.size() * Settings.stopword_ratio;
+        List <Token> stopwords = new ArrayList<>();
+
+        for (Token t : this.index) {
+            if ( t.getDF() > dfThreshold  ) {
+                stopwords.add(t);
+            }
+        }
+        this.index.removeAll(stopwords);
         System.out.println("Stop words eliminated: " + stopwords.size());
         this.outputTokenList(stopwords, Settings.STOPWRDS_FNAME);
     }
@@ -106,7 +108,6 @@ public class CollectionParser {
      */
     public void outputIndex() {
         this.outputTokenList(this.index, Settings.INDEX_FNAME);
-        System.out.println( this.index.size() );
     }
 
     /**
