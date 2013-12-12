@@ -84,26 +84,41 @@ public class CollectionParser {
     }
 
     /**
-     * Stop word elimination works under the assumption that the stop words are the top 10% most occurring words in the
-     * corpus.
+     * Stop word elimination works under the assumption that the stop words are the top most occurring words in the
+     * corpus (the ratio is defined in util.Setting class)
      */
     public void eliminateStopwords() {
+        double sw_ratio = Settings.stopword_ratio;
         Collections.sort(this.index);
-        int tenPercent = (int) (0.1 * this.index.size());
 
-        for (int i = 0; i < tenPercent; i++) {
-            this.index.remove(this.index.size() - 1 - i);
-        } System.out.println("Stop words eliminated: " + tenPercent);
+        int elim = (int) (sw_ratio * this.index.size());
+        List <Token> stopwords = new ArrayList<>(elim);
+        for (int i = this.index.size() - elim; i < this.index.size(); i++) {
+            Token t = this.index.get(i);
+            stopwords.add(t);
+        } this.index.removeAll(stopwords);
+        System.out.println("Stop words eliminated: " + stopwords.size());
+        this.outputTokenList(stopwords, Settings.STOPWRDS_FNAME);
     }
 
     /**
      * Creates the index file to be used later for retrieval.
      */
     public void outputIndex() {
+        this.outputTokenList(this.index, Settings.INDEX_FNAME);
+        System.out.println( this.index.size() );
+    }
+
+    /**
+     * Writes the Token contents of a given list to file.
+     * @param l List to be written to file.
+     * @param fname Name of the file to be written
+     */
+    private void outputTokenList(List<Token> l, String fname) {
         System.out.println( this.index.size() );
         try {
-            FileOutputStream fos = new FileOutputStream(Settings.INDEX_FNAME);
-            for (Token t : this.index) {
+            FileOutputStream fos = new FileOutputStream(fname);
+            for (Token t : l) {
                 fos.write((t.toString() + "\n").getBytes());
             }
         } catch (IOException e) { e.printStackTrace(); }

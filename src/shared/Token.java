@@ -113,7 +113,7 @@ public class Token implements Comparable<Token> {
      */
     public int compareTo(Token other) {
         if (this.getDF() < other.getDF())   { return -1; }
-        if (this.getDF() > other.getDF())   { return 1; }
+        if (this.getDF() > other.getDF())   { return  1; }
         return 0;
     }
 }
