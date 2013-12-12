@@ -177,7 +177,7 @@ public class SearchEngine extends javax.swing.JFrame {
         String query = this.queryTextField.getText();
         Model m = getSelectedModel();
 
-        populateResults(m.getRanking(query).getDocuments());
+        outputResults(m.getRanking(query).getDocuments());
     }
 
     /**
@@ -190,10 +190,10 @@ public class SearchEngine extends javax.swing.JFrame {
     }
 
     /**
-     * Populates the result section's jTable given an arraylist of documents.
+     * Outputs the results to the user.
      * @param ranking An arraylist of documents.
      */
-    private void populateResults(ArrayList<Document> ranking) {
+    private void outputResults(ArrayList<Document> ranking) {
         String [] columnNames = {"#", "Document ID", "Score"};
         Object[][] tableData = new Object[ranking.size()][3];
         int index = 0;
@@ -210,6 +210,8 @@ public class SearchEngine extends javax.swing.JFrame {
         this.resultsTable.getColumnModel().getColumn(0).setPreferredWidth(20);
         this.resultsTable.getColumnModel().getColumn(1).setPreferredWidth(100);
         this.resultsTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+
+        this.statusLabel.setText("Search returned " + ranking.size() + " results");
     }
 
     /**
