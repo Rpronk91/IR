@@ -19,8 +19,8 @@ public class Evaluator {
      */
     private static HashMap<Integer, String> getTestQueries() {
         HashMap<Integer, String> ret = new HashMap<>();
-        ret.put(6, "sustainable ecosystems");
-        ret.put(7, "air guitar textile sensors");
+        ret.put(1, "sustainable ecosystems");
+        ret.put(2, "air guitar textile sensors");
         return ret;
     }
 
@@ -38,7 +38,7 @@ public class Evaluator {
 
     private static void outputRanking(DocumentCollection dc, Model m, int qID) {
         String runID = m.toString();
-        String fname = qID + "" + runID + ".eval";
+        String fname = qID + "" + runID + ".txt";
         final String outputFolder = "evaluatorOutputs";
 
         File theDir = new File(outputFolder);
@@ -56,7 +56,7 @@ public class Evaluator {
                 double score = d.getScore();
                 String docID = d.getID();
                 if (Double.isNaN(score)) { score = 0.0; }
-                String line = qID + " "  + docID + " "  + rank + " " + score + " " + runID;
+                String line = qID + " Q0 " + docID + " "  + rank + " " + score + " " + runID;
                 fos.write( (line + "\n").getBytes() );
                 rank++;
             }
