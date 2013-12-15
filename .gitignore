@@ -58,3 +58,5 @@ local.properties
 *.out
 *.fdb_latexmk
 *.synctex.gz
+
+*.eval

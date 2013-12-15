@@ -45,6 +45,19 @@ public abstract class Model {
     }
 
     /**
+     * Ranks the document collection and returns a sorted collection of documents including zero scores to be used for
+     * evaluation of the model.
+     * @param query The query to be evaluated.
+     * @return A sorted collection of documents to be to be used for evaluation of the model.
+     */
+    public DocumentCollection getEvaluationRanking(String query) {
+        this.returnSet = new DocumentCollection(this.documentStatistics); // clone
+        this.scoreDocuments(query);
+        returnSet.sort();
+        return returnSet;
+    }
+
+    /**
      * Split the query on whitespace and return a container with tokens.
      * @param query The string to be processed.
      * @return a container with tokens of the query.
