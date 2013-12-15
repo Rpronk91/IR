@@ -1,6 +1,7 @@
 package shared;
 
 public class Document implements Comparable<Document> {
+
     private final String id;
     private final double length;
     private double score;
@@ -34,7 +35,11 @@ public class Document implements Comparable<Document> {
      * @return the score assigned to this document.
      */
     public double getScore() { return this.score; }
-    public void setScore(double score) { this.score = score; }
+
+    public void setScore(double score) {
+        if (Double.isNaN(score)) { this.score = 0.0; }
+        else { this.score = score; }
+    }
 
     /**
      * Returns the unique identifier of this document.
